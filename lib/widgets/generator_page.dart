@@ -11,9 +11,9 @@ class GeneratorPage extends StatelessWidget {
 
     IconData icon;
     if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
+      icon = Icons.fireplace;
     } else {
-      icon = Icons.favorite_border;
+      icon = Icons.fireplace_outlined;
     }
 
     return Center(

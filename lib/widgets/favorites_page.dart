@@ -22,7 +22,7 @@ class FavoritesPage extends StatelessWidget {
         ),
         for (var pair in appState.favorites)
           ListTile(
-            leading: Icon(Icons.favorite),
+            leading: Icon(Icons.fireplace),
             title: Text(pair.asLowerCase),
           ),
       ],
