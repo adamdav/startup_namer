@@ -31,14 +31,14 @@ class MyApp extends StatelessWidget {
 
 class MyAppState extends ChangeNotifier {
   var description = '';
+  var names = <String>[];
+  var current = '';
 
   void setDescription(String value) {
     description = value;
+    names = [];
     notifyListeners();
   }
-
-  var names = <String>[];
-  var current = '';
 
   Future<void> getNext() async {
     if (names.isNotEmpty) {
