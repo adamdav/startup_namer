@@ -1,5 +1,3 @@
-import 'package:http/http.dart' as http;
-// import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:startup_namer/services/open_ai.dart';
@@ -41,48 +39,28 @@ class MyAppState extends ChangeNotifier {
   }
 
   Future<void> getNext() async {
-    if (names.isNotEmpty) {
+    if (names.length > 1) {
       current = names.removeAt(0);
       notifyListeners();
       return;
     }
 
-    // Get completion from OpenAI
+    if (names.length == 1) {
+      current = names.removeAt(0);
+      try {
+        names = await fetchNameIdeas(description);
+        notifyListeners();
+      } catch (e) {
+        print(e);
+      }
+      notifyListeners();
+      return;
+    }
+
+    // Get name ideas from OpenAI
     try {
-      final result = await OpenAi.fetchCompletions(description);
-      print("Result: $result");
-
-      final choices = result['choices'];
-
-      final firstChoice = choices[0];
-      final text = firstChoice['text'];
-
-      print("Text: $text");
-
-      final _names = text
-          .split('\n')
-          .map((line) {
-            final exp = RegExp(r'([a-zA-Z]+.+)');
-            print("Line: $line");
-            RegExpMatch? match = exp.firstMatch(line);
-            if (match == null) {
-              return null;
-            }
-            print("Match: $match");
-            final name = match[0];
-            print("Name: $name");
-            return name;
-          })
-          .whereType<String>()
-          .toList();
-
-      print("Names: $_names");
-
-      current = _names.removeAt(0);
-      names = _names;
-
-      print("Current: $current");
-
+      names = await fetchNameIdeas(description);
+      current = names.removeAt(0);
       notifyListeners();
     } catch (e) {
       print(e);
@@ -98,4 +76,27 @@ class MyAppState extends ChangeNotifier {
     }
     notifyListeners();
   }
+}
+
+Future<List<String>> fetchNameIdeas(String description) async {
+  final result = await OpenAi.fetchCompletions(description);
+  final choices = result['choices'];
+  final firstChoice = choices[0];
+  final text = firstChoice['text'];
+
+  final names = text
+      .split('\n')
+      .map((line) {
+        final exp = RegExp(r'([a-zA-Z]+.+)');
+        RegExpMatch? match = exp.firstMatch(line);
+        if (match == null) {
+          return null;
+        }
+        final name = match[0];
+        return name;
+      })
+      .whereType<String>()
+      .toList();
+
+  return names;
 }
