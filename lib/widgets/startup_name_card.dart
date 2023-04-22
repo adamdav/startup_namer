@@ -12,14 +12,17 @@ class StartupNameCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!.copyWith(
+    final style = theme.textTheme.displaySmall!.copyWith(
       color: theme.colorScheme.onPrimary,
     );
     return Card(
       color: theme.colorScheme.primary,
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(50),
+      // ),
       child: Padding(
         padding: const EdgeInsets.all(20),
-        child: Text(name, style: style),
+        child: Text(name, style: style, textAlign: TextAlign.center),
       ),
     );
   }

@@ -19,53 +19,62 @@ class GeneratorPage extends StatelessWidget {
       icon = Icons.fireplace_outlined;
     }
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // NameCard(pair: pair),
-          // TextField(
-          //   decoration: InputDecoration(
-          //     border: OutlineInputBorder(),
-          //     hintText: 'Describe your startup idea',
-          //   ),
-          // ),
-          StartupDescriptionField(),
-          if (names.isEmpty) ...[
-            SizedBox(height: 10),
-            ElevatedButton(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // NameCard(pair: pair),
+        // TextField(
+        //   decoration: InputDecoration(
+        //     border: OutlineInputBorder(),
+        //     hintText: 'Describe your startup idea',
+        //   ),
+        // ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: StartupDescriptionField(),
+        ),
+        if (names.isEmpty) ...[
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
               onPressed: () {
                 appState.getNext();
               },
               child: Text('Generate'),
             ),
-          ],
-          if (names.isNotEmpty) ...[
-            SizedBox(height: 10),
-            StartupNameCard(name: name),
-            SizedBox(height: 10),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    appState.toggleFavorite();
-                  },
-                  icon: Icon(icon),
-                  label: Text('Like'),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    appState.getNext();
-                  },
-                  child: Text('Next'),
-                ),
-              ],
-            ),
-          ]
+          ),
         ],
-      ),
+        if (names.isNotEmpty) ...[
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StartupNameCard(name: name),
+          ),
+          SizedBox(height: 10),
+          Row(
+            // mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  appState.toggleFavorite();
+                },
+                icon: Icon(icon),
+                label: Text('Like'),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: () {
+                  appState.getNext();
+                },
+                child: Text('Next'),
+              ),
+            ],
+          ),
+        ]
+      ],
     );
   }
 }
