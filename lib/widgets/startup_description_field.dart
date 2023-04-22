@@ -9,11 +9,9 @@ class StartupDescriptionField extends StatelessWidget {
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
     return TextFormField(
-      // controller: TextEditingController(text: appState.description),
       initialValue: appState.description,
       decoration: InputDecoration(
         filled: true,
-        // fillColor: Color.fromRGBO(255, 255, 255, 1),
         fillColor: Theme.of(context).textSelectionTheme.selectionColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),

@@ -8,7 +8,6 @@ class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<MyAppState>();
-    // var pair = appState.current;
     final names = appState.names;
     final name = appState.current;
 
@@ -23,13 +22,6 @@ class GeneratorPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // NameCard(pair: pair),
-        // TextField(
-        //   decoration: InputDecoration(
-        //     border: OutlineInputBorder(),
-        //     hintText: 'Describe your startup idea',
-        //   ),
-        // ),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: StartupDescriptionField(),
@@ -54,7 +46,6 @@ class GeneratorPage extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Row(
-            // mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton.icon(

@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 
 class StartupNameCard extends StatelessWidget {
@@ -17,9 +16,6 @@ class StartupNameCard extends StatelessWidget {
     );
     return Card(
       color: theme.colorScheme.primary,
-      // shape: RoundedRectangleBorder(
-      //   borderRadius: BorderRadius.circular(50),
-      // ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Text(name, style: style, textAlign: TextAlign.center),
