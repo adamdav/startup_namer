@@ -1,6 +1,8 @@
-import 'package:english_words/english_words.dart';
+import 'package:http/http.dart' as http;
+// import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:startup_namer/services/open_ai.dart';
 import 'package:startup_namer/widgets/home_page.dart';
 
 void main() {
@@ -28,14 +30,66 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
+  var description = '';
 
-  void getNext() {
-    current = WordPair.random();
+  void setDescription(String value) {
+    description = value;
     notifyListeners();
   }
 
-  var favorites = <WordPair>[];
+  var names = <String>[];
+  var current = '';
+
+  Future<void> getNext() async {
+    if (names.isNotEmpty) {
+      current = names.removeAt(0);
+      notifyListeners();
+      return;
+    }
+
+    // Get completion from OpenAI
+    try {
+      final result = await OpenAi.fetchCompletions(description);
+      print("Result: $result");
+
+      final choices = result['choices'];
+
+      final firstChoice = choices[0];
+      final text = firstChoice['text'];
+
+      print("Text: $text");
+
+      final _names = text
+          .split('\n')
+          .map((line) {
+            final exp = RegExp(r'([a-zA-Z]+.+)');
+            print("Line: $line");
+            RegExpMatch? match = exp.firstMatch(line);
+            if (match == null) {
+              return null;
+            }
+            print("Match: $match");
+            final name = match[0];
+            print("Name: $name");
+            return name;
+          })
+          .whereType<String>()
+          .toList();
+
+      print("Names: $_names");
+
+      current = _names.removeAt(0);
+      names = _names;
+
+      print("Current: $current");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  var favorites = <String>[];
   void toggleFavorite() {
     if (favorites.contains(current)) {
       favorites.remove(current);

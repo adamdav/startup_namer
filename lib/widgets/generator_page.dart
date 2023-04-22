@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:startup_namer/main.dart';
 import 'package:provider/provider.dart';
-import 'package:startup_namer/widgets/big_card.dart';
+import 'package:startup_namer/widgets/startup_description_field.dart';
+import 'package:startup_namer/widgets/startup_name_card.dart';
 
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
-    var pair = appState.current;
+    // var pair = appState.current;
+    var name = appState.current;
 
     IconData icon;
-    if (appState.favorites.contains(pair)) {
+    if (appState.favorites.contains(name)) {
       icon = Icons.fireplace;
     } else {
       icon = Icons.fireplace_outlined;
@@ -20,7 +22,16 @@ class GeneratorPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BigCard(pair: pair),
+          // NameCard(pair: pair),
+          // TextField(
+          //   decoration: InputDecoration(
+          //     border: OutlineInputBorder(),
+          //     hintText: 'Describe your startup idea',
+          //   ),
+          // ),
+          StartupDescriptionField(),
+          SizedBox(height: 10),
+          StartupNameCard(name: name),
           SizedBox(height: 10),
           Row(
             mainAxisSize: MainAxisSize.min,

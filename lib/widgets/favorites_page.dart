@@ -20,10 +20,10 @@ class FavoritesPage extends StatelessWidget {
           child: Text('You have '
               '${appState.favorites.length} favorites:'),
         ),
-        for (var pair in appState.favorites)
+        for (var name in appState.favorites)
           ListTile(
             leading: Icon(Icons.fireplace),
-            title: Text(pair.asLowerCase),
+            title: Text(name),
           ),
       ],
     );
