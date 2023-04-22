@@ -1,3 +1,4 @@
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:startup_namer/widgets/favorites_page.dart';
 import 'package:startup_namer/widgets/generator_page.dart';
@@ -26,38 +27,62 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
-        body: Row(
-          children: [
-            SafeArea(
-              child: NavigationRail(
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
+        body: Platform.isIOS || Platform.isAndroid
+            ? Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                child: page,
+              )
+            : Row(
+                children: [
+                  SafeArea(
+                    child: NavigationRail(
+                      extended: constraints.maxWidth >= 600,
+                      destinations: [
+                        NavigationRailDestination(
+                          icon: Icon(Icons.home),
+                          label: Text('Home'),
+                        ),
+                        NavigationRailDestination(
+                          icon: Icon(Icons.fireplace),
+                          label: Text('Favorites'),
+                        ),
+                      ],
+                      selectedIndex: selectedIndex,
+                      onDestinationSelected: (value) {
+                        // print('selected: $value');
+                        setState(() {
+                          selectedIndex = value;
+                        });
+                      },
+                    ),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.fireplace),
-                    label: Text('Favorites'),
+                  Expanded(
+                    child: Container(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      child: page,
+                    ),
                   ),
                 ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  // print('selected: $value');
+              ),
+        bottomNavigationBar: Platform.isIOS || Platform.isAndroid
+            ? BottomNavigationBar(
+                items: [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.fireplace),
+                      label: 'Favorites',
+                    ),
+                  ],
+                currentIndex: selectedIndex,
+                onTap: (value) {
                   setState(() {
                     selectedIndex = value;
                   });
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
-            ),
-          ],
-        ),
+                })
+            : null,
       );
     });
   }
