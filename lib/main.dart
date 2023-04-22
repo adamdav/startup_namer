@@ -17,10 +17,16 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Startup Namer',
         theme: ThemeData(
-          useMaterial3: true,
-          colorScheme:
-              ColorScheme.fromSeed(seedColor: Color.fromRGBO(237, 151, 85, 1)),
-        ),
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+              primary: Color.fromRGBO(237, 151, 85, 1),
+              primaryContainer: Color.fromRGBO(237, 151, 85, .1),
+              secondary: Color.fromRGBO(237, 151, 85, 1),
+              tertiary: Color.fromRGBO(237, 151, 85, 1),
+              background: Color.fromRGBO(255, 255, 255, 1),
+            ),
+            navigationRailTheme: NavigationRailThemeData()
+                .copyWith(indicatorColor: Color.fromRGBO(237, 151, 85, 1))),
         home: MyHomePage(),
       ),
     );
