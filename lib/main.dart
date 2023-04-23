@@ -49,8 +49,9 @@ class MyAppState extends ChangeNotifier {
   }
 
   Future<void> getNext() async {
-    // If there are names in the list, use them
+    // If there is more than one name in the list, use them and do not fetch more
     if (names.length > 1) {
+      // Use the first name from the current state
       current = names.removeAt(0);
       notifyListeners();
       return;
@@ -58,8 +59,9 @@ class MyAppState extends ChangeNotifier {
 
     // If there is exactly one name in the list, use it and fetch more
     if (names.length == 1) {
-      // Use the name
+      // Use the name from the current state
       current = names.removeAt(0);
+      notifyListeners();
 
       try {
         // Fetch more name ideas
@@ -68,7 +70,7 @@ class MyAppState extends ChangeNotifier {
       } catch (e) {
         print(e);
       }
-      notifyListeners();
+
       return;
     }
 
@@ -77,7 +79,7 @@ class MyAppState extends ChangeNotifier {
       // Fetch name ideas
       names = await fetchNameIdeas(description);
 
-      // Use the first name
+      // Use the first name if fetch was successful
       current = names.removeAt(0);
 
       notifyListeners();
